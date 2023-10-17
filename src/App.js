@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState, useEffect } from "react";
+import Level1 from "./components/Level1";
+
+export const UsersContext = createContext();
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UsersContext.Provider value={users}>
+      <Level1 />
+    </UsersContext.Provider>
   );
 }
 
